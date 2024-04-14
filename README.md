@@ -17,6 +17,15 @@ SSL certificates, in the ./ssl directory. Thus, opening any pages will give us w
 Note the warning `The 'module' option will be set to 'ES2022' instead'`. This is from tsconfig.json, in the line `"module": "commonjs"`.
 Without this, (if we just did the standard `"module" : "ES2022"`), I cant' run do the `ts-node server.ts` command. Hence, dirty fix 
 
+# How to operate
+For the cameras to work, open one window as such
+https://localhost:4200/server. Select your camera, if prompted.
+For the everything else to work, in another window as such
+https://localhost:4200`. Also, please use google chrome or chromium, i had alot of issues with firefox
+
+
+
 # Running the GUI on a non-local IP
 To be discussed...
+
 
