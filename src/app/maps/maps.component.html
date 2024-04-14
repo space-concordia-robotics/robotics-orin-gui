@@ -1,0 +1,25 @@
+ <div #box class="resizable-draggable"
+    [style.width.px]="width"
+    [style.height.px]="height"
+    [style.transform]="'translate3d('+ left + 'px,' + top + 'px,' + '0px)'"
+    [class.active]="status === 1 || status === 2"
+    (mousedown)="setStatus($event, 2)"
+    (window:mouseup)="setStatus($event, 0)"
+
+    >
+    <div id="map"
+         [style.width.px]="width"
+         [style.height.px]="height">
+    </div>
+
+    <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
+    <span>{{width | number:'1.0-0'}}px</span>
+    <span>{{height | number:'1.0-0'}}px</span>
+    <span>({{left}}, {{top}})</span>
+    </div>
+
+<!--  <mat-form-field class="example-full-width">-->
+<!--    <mat-label>Add coordinates</mat-label>-->
+<!--    <input matInput [formControl]="coordinatesForm" placeholder="Ex. 45.496082, -73.569916 (press enter to submit)"-->
+<!--             (keyup.enter)="addCoordinates()">-->
+<!--  </mat-form-field>-->
