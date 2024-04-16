@@ -1,14 +1,1 @@
 <router-outlet></router-outlet>
-
-<app-tool-window
-  (mapChecked)="setMapVisibility($event)"
-  (cameraStreamsChecked)="setCameraVisibility($event)">
-</app-tool-window>
-
-
-<app-maps *ngIf="mapVisible"
-            [width]="400" [height]="300" [left]="100" [top]="100">>
-</app-maps>
-
-<app-video-client *ngIf="camerasVisible">
-</app-video-client>

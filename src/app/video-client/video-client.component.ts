@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import * as io from "socket.io-client";
+import {DecimalPipe} from "@angular/common";
 
+import {getServerURL} from "../../../config/connection_info";
 
 const config = {
   iceServers: [
@@ -10,22 +12,24 @@ const config = {
 @Component({
   selector: 'app-video-client',
   standalone: true,
-  imports: [],
+    imports: [
+        DecimalPipe
+    ],
   templateUrl: './video-client.component.html',
   styleUrl: './video-client.component.css'
 })
-export class VideoClientComponent {
+export class VideoClientComponent implements OnInit{
+
 
   peerConnection : RTCPeerConnection
-  socket = io.connect("https://localhost:5000");
-  constructor() {
 
+  socket = io.connect(getServerURL());
+  constructor() {
+    console.log(`Client listening to server ${getServerURL()}`)
     this.socket.on("offer", (id, description) => {
 
-
     console.log('Got offer back from video-server for ', id, description)
-
-      this.peerConnection = new RTCPeerConnection(config);
+    this.peerConnection = new RTCPeerConnection(config);
 
     this.peerConnection
       .setRemoteDescription(description)
@@ -64,5 +68,10 @@ this.socket.on("candidate", (id, candidate) => {
   this.socket.on("broadcaster", () => {
     this.socket.emit("watcher");
   });
+  window.onunload = window.onbeforeunload = () => {
+      this.socket.close();
+    };
+  }
+  ngOnInit(): void {
   }
 }

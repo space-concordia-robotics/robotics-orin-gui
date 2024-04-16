@@ -1,0 +1,35 @@
+ export const connection_info = {
+    protocol : "https",
+    local_host: "localhost",
+    remote_host: "192.168.0.103",
+    frontend_port : 4200,
+    server_port : 5000,
+    local_mode : true
+  }
+  export const getServerURL = () => {
+    if(connection_info.local_mode){
+      return `${connection_info.protocol}://${connection_info.local_host}:${connection_info.server_port}`
+    }
+    else{
+      return `${connection_info.protocol}://${connection_info.remote_host}:${connection_info.server_port}`
+    }
+  }
+
+  export const getFrontEndURL = () => {
+    if(connection_info.local_mode){
+      return `${connection_info.protocol}://${connection_info.local_host}:${connection_info.frontend_port}`
+    }
+    else{
+      return `${connection_info.protocol}://${connection_info.remote_host}:${connection_info.frontend_port}`
+    }
+  }
+//   let local_mode = {
+//   "host": "localhost"
+//   },
+//   "remote_mode" : {
+//   "host": "192.168.0.103"
+//   },
+//   "frontend_port" : "4200",
+//   "backend_port" : "5000",
+//   "using_ssl" : true
+// }

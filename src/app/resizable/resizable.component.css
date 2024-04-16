@@ -1,9 +1,9 @@
 .resizable-draggable {
-    /*outline: 1px dashed green;*/
-    /*&.active {*/
-    /*    outline-style: solid;*/
-    /*    background-color: #80ff800d;*/
-    /*}*/
+    outline: 1px dashed green;
+    &.active {
+        outline-style: solid;
+        background-color: #80ff800d;
+    }
 
     &:hover {
         cursor: all-scroll;
@@ -26,7 +26,9 @@
         transform: translate3d(-100%, -100%, 0);
     }
 }
-
+/*.div.relative{*/
+/*  position: relative;*/
+/*}*/
 .resize-action {
     position: absolute;
     left: 100%;
