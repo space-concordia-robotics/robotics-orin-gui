@@ -4,7 +4,7 @@ import express, { Application } from "express";
 import { createServer, Server as HTTPSServer } from "https";
 
 import { Server, Socket } from "socket.io";
-
+import { getFrontEndURL, getServerHost } from "../config/connection_info";
 import fs from 'fs';
 
 
@@ -16,8 +16,9 @@ export class AppServer {
  private activeSockets: string[] = [];
 
  private readonly DEFAULT_PORT = 5000;
- // private readonly DEFAULT_HOST = "192.168.0.101";
- private readonly DEFAULT_HOST = "localhost";
+ private readonly DEFAULT_HOST = getServerHost();
+ private readonly DEFAULT_FRONT_END_HOST = getFrontEndURL();
+ 
  constructor() {
    this.initialize();
    this.handleRoutes();
@@ -39,8 +40,7 @@ export class AppServer {
 
     this.io = require('socket.io')(this.httpServer, {
         cors: {
-            // origin: "https://192.168.0.101:4200",
-            origin: `https://${this.DEFAULT_HOST}:4200`,
+            origin: `${this.DEFAULT_FRONT_END_HOST}`,
             methods: ["GET", "POST"],
             transports: ['websocket', 'polling'],
             credentials: true
@@ -97,6 +97,6 @@ export class AppServer {
 }
 const server = new AppServer();
 server.listen((host,port) => {
-  console.log(`Server is listening on https://${host}:${port}`);
+  console.log(`Server is listening on ${host}:${port}`);
 });
 

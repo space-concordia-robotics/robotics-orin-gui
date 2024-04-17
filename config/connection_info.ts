@@ -1,7 +1,7 @@
  export const connection_info = {
     protocol : "https",
     local_host: "localhost",
-    remote_host: "192.168.0.103",
+    remote_host: "192.168.0.100",
     frontend_port : 4200,
     server_port : 5000,
     local_mode : true
@@ -12,6 +12,14 @@
     }
     else{
       return `${connection_info.protocol}://${connection_info.remote_host}:${connection_info.server_port}`
+    }
+  }
+  export const getServerHost = () => {
+    if(connection_info.local_mode){
+      return `${connection_info.protocol}://${connection_info.local_host}`
+    }
+    else{
+      return `${connection_info.protocol}://${connection_info.remote_host}`
     }
   }
 
