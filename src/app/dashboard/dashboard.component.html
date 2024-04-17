@@ -6,11 +6,5 @@
 <app-resizable *ngIf="mapVisible" [component]="MapsComponent" [width]="400" [height]="400" [left]="0" [top]="0">
 </app-resizable>
 
-<div style="display: flex">
-<app-resizable *ngIf="camerasVisible" [component]="VideoClientComponent" [width]="400" [height]="400" [left]="0" [top]="0">
+<app-resizable *ngIf="camerasVisible" [component]="VideoClientComponent" [width]="1600" [height]="800" [left]="0" [top]="0">
 </app-resizable>
-
-<app-resizable *ngIf="camerasVisible" [component]="VideoClientComponent" [width]="400" [height]="400" [left]="0" [top]="0">
-</app-resizable>
-
-  </div>

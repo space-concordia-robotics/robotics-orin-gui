@@ -1,6 +1,5 @@
 import {Component, NgZone} from '@angular/core';
 import * as io from "socket.io-client";
-import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
 import {getServerURL} from "../../../config/connection_info";
 
 
@@ -20,20 +19,21 @@ export class VideoServerComponent {
 
   peerConnections: Map<string, RTCPeerConnection> = new Map()
   socket = io.connect(getServerURL());
-  mediaStream: MediaStream
+  mediaStream: MediaStream[] = []
+  
 
-  streamMediaDevice(device : MediaDeviceInfo) {
+  async streamMediaDevice(device : MediaDeviceInfo) {
     console.log(`Starting stream for ${device.label} - ${device.deviceId}`)
     navigator.mediaDevices.getUserMedia({
       video: {
-        deviceId: {exact: device.deviceId}
+        deviceId: {exact: device.deviceId},
       }
     }).then(stream => {
-      this.mediaStream = stream;
-      // let v = document.getElementById('server-video') as HTMLVideoElement
-      // v.srcObject = stream
+
+      this.mediaStream.push(stream);
       this.socket.emit("broadcaster");
     })
+
   }
 
   enumerateMediaDevices() {
@@ -50,6 +50,7 @@ export class VideoServerComponent {
       .catch((err) => {
         console.error(`${err.name}: ${err.message}`);
       });
+
   }
 
   attachSocketEvents(){
@@ -64,9 +65,12 @@ export class VideoServerComponent {
       this.peerConnections.set(id, peerConnection);
 
       console.log('Got video-client ', peerConnection)
-      this.mediaStream!!.getTracks().forEach(track => peerConnection.addTrack(track, this.mediaStream));
+      this.mediaStream!!.forEach( (element:MediaStream) => {
+        let v = document.getElementById(`server-video-1`) as HTMLVideoElement
 
-      console.log('Adding media stream', this.mediaStream)
+        console.log('Adding stream to transcieer', element)
+        peerConnection.addTransceiver(element.getVideoTracks()[0])
+      });
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
           this.socket.emit("candidate", id, event.candidate);

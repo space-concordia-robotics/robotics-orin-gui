@@ -41,9 +41,16 @@ export class VideoClientComponent implements OnInit{
       });
 
     this.peerConnection.ontrack = event => {
-      console.log('Got video for video-client...',event.streams[0])
-      let video = document.getElementById("client-video") as HTMLVideoElement
-      video.srcObject = event.streams[0];
+
+      console.log('Recieved stream from server' , event.receiver.track, event.transceiver.mid)
+      // console.log(event.receiver)
+      let videoSource = new MediaStream([event.receiver.track]);
+      console.log('Adding new video source : ' , videoSource)
+
+      let video = document.getElementById(`video-${event.transceiver.mid}`) as HTMLVideoElement
+      // let video = document.getElementById(`video-0`) as HTMLVideoElement
+      video.srcObject = videoSource
+      
     };
 
     this.peerConnection.onicecandidate = event => {
