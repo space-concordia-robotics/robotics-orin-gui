@@ -6,6 +6,9 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {DecimalPipe} from "@angular/common";
+import {MatButton} from "@angular/material/button";
+import {MatDialog} from "@angular/material/dialog";
+import {CoordinateManagerComponent} from "../coordinate-manager/coordinate-manager.component";
 
 const enum Status {
   OFF = 0,
@@ -23,7 +26,8 @@ const enum Status {
     ReactiveFormsModule,
     MatLabel,
     CdkDrag,
-    DecimalPipe
+    DecimalPipe,
+    MatButton
   ],
   templateUrl: './maps.component.html',
   styleUrl: './maps.component.css'
@@ -35,11 +39,25 @@ export class MapsComponent implements OnInit{
   map : google.maps.Map | undefined
   center = {lat: 45.497406, lng: -73.577102};
 
+  openDialog(){
+      const dialogRef = this.dialog.open(CoordinateManagerComponent, {
+        // height : '2000px',
+        // width : '1900px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
+  }
   ngOnInit() {
     // this.boxPosition
-    this.initMap()
+    this.initMap().then(r => {
+
+    })
   }
-  constructor() {
+  constructor(public dialog: MatDialog) {
+
   }
 
   async initMap() {
