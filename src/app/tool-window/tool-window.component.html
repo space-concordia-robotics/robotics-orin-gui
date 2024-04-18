@@ -1,20 +1,43 @@
 
 <p>
   <mat-toolbar color="primary">
+
     <button mat-icon-button [matMenuTriggerFor]="menu" class="example-icon" aria-label="Example icon-button with menu icon">
       <mat-icon>menu</mat-icon>
       <mat-menu #menu="matMenu">
       <div mat-menu-item (click)="$event.stopPropagation(); cb.toggle()" (keydown.enter)="$event.stopPropagation(); cb.toggle()">
+
         <mat-checkbox class="mat-menu__checkbox"  (change)="onMapChanged($event)" (click)=$event.stopPropagation() #cb>Map</mat-checkbox>
         <br>
         <mat-checkbox class="mat-menu__checkbox"  (change)="onCameraStreamsChanged($event)" (click)=$event.stopPropagation() #cb>Camera streams</mat-checkbox>
-
       </div>
 
       </mat-menu>
-
     </button>
     <span>Tools</span>
+
+    <button style="margin-left: 100px" mat-icon-button [matMenuTriggerFor]="settings" class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>settings</mat-icon>
+      <mat-menu #settings="matMenu">
+      <button mat-menu-item>
+        <mat-icon>wifi</mat-icon>
+        <span>Connection Info</span>
+      </button>
+      </mat-menu>
+    </button>
+    <span>Settings</span>
+
+    <button style="margin-left: 100px" mat-icon-button [matMenuTriggerFor]="info" class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>help</mat-icon>
+      <mat-menu #info="matMenu">
+      <button mat-menu-item>
+<!--        <mat-icon>info</mat-icon>-->
+<!--        <span>Connection Info</span>-->
+      </button>
+      </mat-menu>
+    </button>
+    <span>help</span>
+
   </mat-toolbar>
 </p>
 
