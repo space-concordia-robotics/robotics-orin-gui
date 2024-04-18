@@ -1,6 +1,7 @@
 import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import * as io from "socket.io-client";
 import {DecimalPipe} from "@angular/common";
+import {MatGridListModule, MatGridTile} from '@angular/material/grid-list';
 
 import {getServerURL} from "../../../config/connection_info";
 
@@ -13,7 +14,9 @@ const config = {
   selector: 'app-video-client',
   standalone: true,
     imports: [
-        DecimalPipe
+        DecimalPipe,
+        MatGridListModule,
+        MatGridTile
     ],
   templateUrl: './video-client.component.html',
   styleUrl: './video-client.component.css'
@@ -43,12 +46,9 @@ export class VideoClientComponent implements OnInit{
     this.peerConnection.ontrack = event => {
 
       console.log('Recieved stream from server' , event.receiver.track, event.transceiver.mid)
-      // console.log(event.receiver)
       let videoSource = new MediaStream([event.receiver.track]);
       console.log('Adding new video source : ' , videoSource)
-
       let video = document.getElementById(`video-${event.transceiver.mid}`) as HTMLVideoElement
-      // let video = document.getElementById(`video-0`) as HTMLVideoElement
       video.srcObject = videoSource
       
     };
