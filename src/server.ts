@@ -18,7 +18,7 @@ export class AppServer {
  private readonly DEFAULT_PORT = 5000;
  private readonly DEFAULT_HOST = getServerHost();
  private readonly DEFAULT_FRONT_END_HOST = getFrontEndURL();
- 
+
  constructor() {
    this.initialize();
    this.handleRoutes();
@@ -99,4 +99,5 @@ const server = new AppServer();
 server.listen((host,port) => {
   console.log(`Server is listening on ${host}:${port}`);
 });
+
 

@@ -7,7 +7,7 @@
     (window:mouseup)="setStatus($event, 0)"
  >
 
-    <ng-container *ngComponentOutlet="component"></ng-container>
+    <ng-container *ngComponentOutlet="component" ></ng-container>
 
     <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
     <!-- <span>{{width | number:'1.0-0'}}px</span>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {
   MatCell, MatCellDef,
@@ -9,16 +9,22 @@ import {
   MatRow, MatRowDef,
   MatTable
 } from "@angular/material/table";
-import {MatInput} from "@angular/material/input";
+import {MatFormField, MatInput} from "@angular/material/input";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {MatLabel} from "@angular/material/form-field";
+import { MatTableDataSource } from '@angular/material/table';
+
 export interface CoordinateElement {
   name: string;
   latitude: number;
   longitude: number;
   status: string;
 }
-const ELEMENT_DATA: CoordinateElement[] = [
-  {name: "GPS1", latitude: 1.22123, longitude: 1.0079, status: 'H'},
+let coordinates: CoordinateElement[] = [
+  {name: "GPS1",  latitude: 1.22123, longitude: 1.0079, status: 'Inactive'},
+  {name: "GPS1",  latitude: 1.22123, longitude: 1.0079, status: 'Inactive'},
+  {name: "GPS1",  latitude: 1.22123, longitude: 1.0079, status: 'Inactive'},
+
 ];
 
 @Component({
@@ -38,7 +44,9 @@ const ELEMENT_DATA: CoordinateElement[] = [
     MatHeaderRowDef,
     MatRowDef,
     MatInput,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel
   ],
   templateUrl: './coordinate-manager.component.html',
   styleUrl: './coordinate-manager.component.css'
@@ -47,5 +55,18 @@ const ELEMENT_DATA: CoordinateElement[] = [
 export class CoordinateManagerComponent {
   displayedColumns: string[] = ['name', 'latitude', 'longitude', 'status'];
   coordinatesForm : FormControl
-  dataSource = ELEMENT_DATA;
+  // dataSource = ELEMENT_DATA;
+  dataSource = new MatTableDataSource<CoordinateElement>();
+
+  constructor() {
+    this.dataSource.data = coordinates
+  }
+  addCoordinates(){
+    coordinates.push(  {name: "GPS1",  latitude: 1.22123, longitude: 1.0079, status: 'Inactive'})
+
+    // data.push()
+    this.dataSource.data = coordinates
+  }
+
+  protected readonly onkeyup = onkeyup;
 }

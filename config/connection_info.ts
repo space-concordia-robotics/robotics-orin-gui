@@ -4,7 +4,7 @@
     remote_host: "192.168.0.100",
     frontend_port : 4200,
     server_port : 5000,
-    local_mode : false
+    local_mode : true
   }
   export const getServerURL = () => {
     if(connection_info.local_mode){
