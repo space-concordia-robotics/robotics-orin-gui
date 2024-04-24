@@ -8,7 +8,7 @@ import {CdkDrag} from "@angular/cdk/drag-drop";
 import {DecimalPipe} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
-import {CoordinateManagerComponent} from "../coordinate-manager/coordinate-manager.component";
+import {CoordinateManagerComponent, Coordinates} from "../coordinate-manager/coordinate-manager.component";
 
 const enum Status {
   OFF = 0,
@@ -40,16 +40,11 @@ export class MapsComponent implements OnInit{
   center = {lat: 45.497406, lng: -73.577102};
 
   openDialog(){
-      const dialogRef = this.dialog.open(CoordinateManagerComponent, {
-        // height : '2000px',
-        // width : '1900px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
-    });
-  }
+      const dialogRef = this.dialog.open(CoordinateManagerComponent)
+      dialogRef.componentInstance.newCoordinates.subscribe(result =>{
+        this.addCoordinates(result)
+      })
+   }
   ngOnInit() {
     // this.boxPosition
     this.initMap().then(r => {
@@ -67,7 +62,7 @@ export class MapsComponent implements OnInit{
 
   this.map = new Map(document.getElementById('map') as HTMLElement, {
         center: this.center,
-        zoom: 14,
+        zoom: 17,
         mapId: '4504f8b37365c3d0',
     });
   const map = this.map
@@ -79,6 +74,7 @@ export class MapsComponent implements OnInit{
     const roverMarker = new AdvancedMarkerElement({
         map,
         position: { lat: 45.497406, lng: -73.577102},
+        gmpDraggable : true,
         content: pinSvg,
         title: 'A marker using a custom SVG image.',
     });
@@ -100,39 +96,28 @@ export class MapsComponent implements OnInit{
 
 
 
-  addCoordinates() {
-    let coords = this.coordinatesForm.getRawValue()!.split(',')
-    //TODO : Error input handling
+  addCoordinates(coords : any) {
+    console.log(coords)
 
-    if (coords != undefined) {
-      let latitude = parseFloat(coords.at(0)!)
-      let longitude = parseFloat(coords.at(1)!)
-
-      let position = {
-        lat : latitude,
-        lng : longitude
-      }
-      const map = this.map
-      const marker = new google.maps.marker.AdvancedMarkerElement({
-        map,
+    const map = this.map
+    const marker = new google.maps.marker.AdvancedMarkerElement({
+      map,
       gmpDraggable: true,
       // content: this.buildContent(property),
-      position: position,
+      position: coords,
       title: "Marker",
     });
-      // Display information about this marker
-      const infoWindow = new google.maps.InfoWindow({
-          //@ts-ignore
-          content: `${position.lat},${position.lng}`,
+    // Display information about this marker
+    const infoWindow = new google.maps.InfoWindow({
+        //@ts-ignore
+        content: `${marker.position.lat},${marker.position.lng}`,
+    });
+    // Add a click listener for this marker.
+    marker.addListener('click', () => {
+          infoWindow.close();
+          infoWindow.open(marker.map, marker);
       });
-      // Add a click listener for this marker.
-      marker.addListener('click', () => {
-            infoWindow.close();
-            let content = `${marker.position?.lat},${marker.position?.lng},`
-            infoWindow.setContent(content);
-            infoWindow.open(marker.map, marker);
-        });
-    }
   }
+
 }
 

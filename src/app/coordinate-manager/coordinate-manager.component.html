@@ -1,41 +1,104 @@
-
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<!--<ng-container formArrayName="coordinatesForms">-->
+<!--<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
   <!-- Position Column -->
-  <ng-container matColumnDef="latitude">
-    <th mat-header-cell *matHeaderCellDef> Latitude </th>
-    <td mat-cell *matCellDef="let element">
 
-      <mat-form-field>
-        <input (keyup.enter)="addCoordinates()" matInput placeholder="45.496082">
-      </mat-form-field>
-    </td>
-  </ng-container>
+  <form [formGroup]="coordsForm">
+    <table>
+      <tr>
+        <th>Latitude</th>
+        <th>Longitude</th>
+      </tr>
+      <tbody>
+      <ng-container formArrayName="rows">
+        <ng-container *ngFor="let row of getRows().controls ;let i = index">
+        <tr [formGroupName]="i">
 
+          <td>
+            <mat-form-field>
+            <input (keyup.enter)="addCoordinates(i)" matInput placeholder="45.496082" formControlName="latitude" [errorStateMatcher]="matcher">
+            </mat-form-field>
+
+            @if (row.get('latitude')!!.hasError('required')) {
+              <mat-error><strong>Input required</strong></mat-error>
+            }
+            @else if (row.get('latitude')!!.invalid) {
+              <mat-error><strong>Invalid input</strong></mat-error>
+            }
+
+          </td>
+          <td>
+            <mat-form-field>
+            <input (keyup.enter)="addCoordinates(i)" matInput placeholder="78.1312" formControlName="longitude"
+                   [errorStateMatcher]="matcher">
+            </mat-form-field>
+
+            @if (row.get('longitude')!!.hasError('required')) {
+            <mat-error><strong>Input required</strong></mat-error>
+            }
+            @else if (row.get('longitude')!!.invalid) {
+            <mat-error><strong>Invalid input</strong></mat-error>
+            }
+
+          </td>
+
+        </tr>
+        </ng-container>
+      </ng-container>
+<!--      <ng-container matColumnDef="latitude">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Latitude </th>-->
+<!--      <td mat-cell *matCellDef="let element" [formGroup]="element">-->
+
+<!--      <mat-form-field>-->
+<!--        <input (keyup.enter)="addCoordinates()"  matInput placeholder="45.496082"  [errorStateMatcher]="matcher"-->
+<!--               [formControl]="latitudeFormControl">-->
+<!--      </mat-form-field>-->
+
+<!--      @if (latitudeFormControl.hasError('required')) {-->
+<!--      <mat-error>Latitude is <strong>required</strong></mat-error>-->
+<!--      }-->
+<!--      @if (latitudeFormControl.hasError('min') || latitudeFormControl.hasError('max')) {-->
+<!--      <mat-error>Latitude range <strong>wrong</strong></mat-error>-->
+<!--      }-->
+<!--    </td>-->
+<!--  </ng-container>-->
+      </tbody>
+      </table>
+</form>
   <!-- Name Column -->
-  <ng-container matColumnDef="longitude">
-    <th mat-header-cell *matHeaderCellDef> Longitude </th>
-    <td mat-cell *matCellDef="let element">
-      <mat-form-field>
-        <mat-label>Longitude</mat-label>
-        <input matInput placeholder="-73.21931">
-      </mat-form-field>
-    </td>
-  </ng-container>
+<!--  <ng-container matColumnDef="longitude">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Longitude </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.latitude}}-->
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container>
+<!--      <mat-form-field>-->
+<!--        <input (keyup.enter)="addCoordinates()"  matInput placeholder="-73.21931"  [errorStateMatcher]="matcher"-->
+<!--               [formControl]="longitudeFormControl">-->
+<!--      </mat-form-field>-->
 
-  <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef> Status </th>
-    <td mat-cell *matCellDef="let element">{{element.status}}</td>
-  </ng-container>
+<!--      @if (longitudeFormControl.hasError('required')) {-->
+<!--      <mat-error>Longitude is <strong>required</strong></mat-error>-->
+<!--      }-->
+<!--      @if (longitudeFormControl.hasError('min') || longitudeFormControl.hasError('max')) {-->
+<!--      <mat-error>Longitude range <strong>wrong</strong></mat-error>-->
+<!--      }-->
+<!--    </td>-->
+<!--  </ng-container>-->
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+<!--  <ng-container matColumnDef="name">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Name </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.name}} </td>-->
+<!--  </ng-container>-->
+
+<!--  <ng-container matColumnDef="status">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Status </th>-->
+<!--    <td mat-cell *matCellDef="let element">{{element.status}}</td>-->
+<!--  </ng-container>-->
+
+<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+<!--</table>-->
+
+<!--</ng-container>-->
