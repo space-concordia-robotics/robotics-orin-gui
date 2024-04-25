@@ -51,7 +51,9 @@
         <mat-header-cell *cdkHeaderCellDef> Modify </mat-header-cell>
 
         <mat-cell *cdkCellDef="let row let rowIndex = index"  [formGroupName]="rowIndex">
-
+         <button type="button" [autofocus]="false" mat-icon-button (click)="modifyCoordinates(rowIndex)">
+              <mat-icon>tune</mat-icon>
+            </button>
         </mat-cell>
       </ng-container>
 

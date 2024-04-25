@@ -158,6 +158,9 @@ export class CoordinateManagerComponent implements OnInit,AfterViewInit{
   addCoordinates(index : number){
     console.log('Adding coordinates...')
     let formControl = this.getRows().at(index)
+
+    console.log(this.coordinates.at(index))
+
     let coordinates : Coordinates = {
       latitude : formControl.get('latitude')?.getRawValue(),
       longitude : formControl.get('longitude')?.getRawValue(),
@@ -168,16 +171,18 @@ export class CoordinateManagerComponent implements OnInit,AfterViewInit{
       console.log(`Invalid input for ${formControl}`)
       return
     }
-    this.coordinates.push(coordinates)
-    // console.log(this.coordinates.splice(1,this.coordinates.length))
-
-    localStorage.setItem("gps_coordinates",JSON.stringify(this.coordinates.slice(1,this.coordinates.length)))
-    console.log(localStorage)
-    // this.fillCoordinateForms()
+    if(this.coordinates.at(index)?.status == CoordinateState.QUEUED){
+      this.coordinates[index] = coordinates
+    }
+    else {
+      this.coordinates.push(coordinates)
+    }
+    localStorage.setItem("gps_coordinates", JSON.stringify(this.coordinates.slice(1, this.coordinates.length)))
     this.ngOnInit()
   }
 
   modifyCoordinates(index : number){
+    this.getRows().at(index).enable()
 
   }
   deleteCoordinate(index : number){

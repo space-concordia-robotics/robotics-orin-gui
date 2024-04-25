@@ -11,10 +11,10 @@ mat-row {
 mat-cell{
   font-size:12px;
   font-family: Verdana,Sans-Serif;
-  /*display: table-cell;*/
-  height: 100px;
-  /*padding: px 8px 8px 0;*/
-  /*vertical-align: middle;*/
+  /*display: flex;*/
+  /*height: 20px;*/
+  padding: 8px 8px 8px 0;
+  vertical-align: middle;
   /*border-bottom: 1px solid rgba(0, 0, 0, 0.12);*/
   /*border-top: 1px solid rgba(0, 0, 0, 0.12);*/
   /*border-left: 1px solid rgba(0, 0, 0, 0.12);*/
