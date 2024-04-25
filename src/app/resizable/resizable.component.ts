@@ -40,7 +40,6 @@ export class ResizableComponent{
   private loadBox(){
     const {left, top} = this.box!!.nativeElement.getBoundingClientRect();
     this.boxPosition = {left, top};
-    // console.log(this.boxPosition)
   }
    private loadContainer(){
     const left = this.boxPosition!!.left - this.left;
@@ -48,7 +47,6 @@ export class ResizableComponent{
     const right = left + 1980;
     const bottom = top + 1080;
     this.containerPos = { left, top, right, bottom };
-    // console.log(this.containerPos)
   }
 
   setStatus(event: MouseEvent, status: number){

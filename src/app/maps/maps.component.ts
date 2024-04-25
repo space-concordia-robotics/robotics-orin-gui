@@ -1,20 +1,14 @@
 
-import {AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {GoogleMap} from "@angular/google-maps";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {DecimalPipe} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
 import {CoordinateManagerComponent, Coordinates} from "../coordinate-manager/coordinate-manager.component";
-
-const enum Status {
-  OFF = 0,
-  RESIZE = 1,
-  MOVE = 2
-}
 
 @Component({
   selector: 'app-maps',
@@ -35,18 +29,21 @@ const enum Status {
 
 export class MapsComponent implements OnInit{
 
-  coordinatesForm = new FormControl('');
   map : google.maps.Map | undefined
   center = {lat: 45.497406, lng: -73.577102};
 
   openDialog(){
-      const dialogRef = this.dialog.open(CoordinateManagerComponent)
-      dialogRef.componentInstance.newCoordinates.subscribe(result =>{
+      const dialogRef = this.dialog.open(CoordinateManagerComponent,{
+        width : '100%',
+        // height : '100%'
+        }
+      )
+      dialogRef.componentInstance.coordinatesEvent.subscribe(result =>{
         this.addCoordinates(result)
       })
    }
   ngOnInit() {
-    // this.boxPosition
+    // Initialize maps
     this.initMap().then(r => {
     })
   }
@@ -90,15 +87,16 @@ export class MapsComponent implements OnInit{
             // infoWindow.setContent(content);
             infoWindow.open(roverMarker.map, roverMarker);
         });
-  //
 
     }
 
 
 
-  addCoordinates(coords : any) {
-    console.log(coords)
-
+  addCoordinates(coordinateEvent : any) {
+    const coords = {
+      lat : coordinateEvent.latitude,
+      lng : coordinateEvent.longitude,
+    }
     const map = this.map
     const marker = new google.maps.marker.AdvancedMarkerElement({
       map,

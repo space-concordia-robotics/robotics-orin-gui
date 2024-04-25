@@ -1,104 +1,72 @@
-<!--<ng-container formArrayName="coordinatesForms">-->
-<!--<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
+ <script src="coordinate-manager.component.ts"></script>
+ <form [formGroup]="coordsForm">
 
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-  <!-- Position Column -->
-
-  <form [formGroup]="coordsForm">
-    <table>
-      <tr>
-        <th>Latitude</th>
-        <th>Longitude</th>
-      </tr>
-      <tbody>
-      <ng-container formArrayName="rows">
-        <ng-container *ngFor="let row of getRows().controls ;let i = index">
-        <tr [formGroupName]="i">
-
-          <td>
-            <mat-form-field>
-            <input (keyup.enter)="addCoordinates(i)" matInput placeholder="45.496082" formControlName="latitude" [errorStateMatcher]="matcher">
-            </mat-form-field>
-
-            @if (row.get('latitude')!!.hasError('required')) {
-              <mat-error><strong>Input required</strong></mat-error>
-            }
-            @else if (row.get('latitude')!!.invalid) {
-              <mat-error><strong>Invalid input</strong></mat-error>
-            }
-
-          </td>
-          <td>
-            <mat-form-field>
-            <input (keyup.enter)="addCoordinates(i)" matInput placeholder="78.1312" formControlName="longitude"
+    <mat-table formArrayName="rows" #table [dataSource]="coordinates">
+      <ng-container cdkColumnDef="latitude">
+        <mat-header-cell *cdkHeaderCellDef> Latitude </mat-header-cell>
+        <mat-cell *cdkCellDef="let row let rowIndex = index"  [formGroupName]="rowIndex">
+          <mat-form-field>
+            <input (keyup.enter)="addCoordinates(rowIndex)" matInput placeholder="45.496082" formControlName="latitude"
                    [errorStateMatcher]="matcher">
-            </mat-form-field>
-
-            @if (row.get('longitude')!!.hasError('required')) {
-            <mat-error><strong>Input required</strong></mat-error>
-            }
-            @else if (row.get('longitude')!!.invalid) {
-            <mat-error><strong>Invalid input</strong></mat-error>
-            }
-
-          </td>
-
-        </tr>
-        </ng-container>
+          </mat-form-field>
+        </mat-cell>
       </ng-container>
-<!--      <ng-container matColumnDef="latitude">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Latitude </th>-->
-<!--      <td mat-cell *matCellDef="let element" [formGroup]="element">-->
 
-<!--      <mat-form-field>-->
-<!--        <input (keyup.enter)="addCoordinates()"  matInput placeholder="45.496082"  [errorStateMatcher]="matcher"-->
-<!--               [formControl]="latitudeFormControl">-->
-<!--      </mat-form-field>-->
 
-<!--      @if (latitudeFormControl.hasError('required')) {-->
-<!--      <mat-error>Latitude is <strong>required</strong></mat-error>-->
-<!--      }-->
-<!--      @if (latitudeFormControl.hasError('min') || latitudeFormControl.hasError('max')) {-->
-<!--      <mat-error>Latitude range <strong>wrong</strong></mat-error>-->
-<!--      }-->
-<!--    </td>-->
-<!--  </ng-container>-->
-      </tbody>
-      </table>
-</form>
-  <!-- Name Column -->
-<!--  <ng-container matColumnDef="longitude">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Longitude </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.latitude}}-->
+      <ng-container cdkColumnDef="longitude">
+        <mat-header-cell *cdkHeaderCellDef> Longitude </mat-header-cell>
+        <mat-cell *cdkCellDef="let row let rowIndex = index"  [formGroupName]="rowIndex">
 
-<!--      <mat-form-field>-->
-<!--        <input (keyup.enter)="addCoordinates()"  matInput placeholder="-73.21931"  [errorStateMatcher]="matcher"-->
-<!--               [formControl]="longitudeFormControl">-->
-<!--      </mat-form-field>-->
+<!--          <div style="display:flex;flex-direction: column">-->
+          <mat-form-field>
+            <input (keyup.enter)="addCoordinates(rowIndex)" matInput placeholder="45.496082" formControlName="longitude"
+                   [errorStateMatcher]="matcher">
+          </mat-form-field>
+<!--             @if (getRows().at(rowIndex).get('longitude')?.hasError('required')) {-->
+<!--            <mat-error><strong>Input required</strong></mat-error>-->
+<!--            }-->
+<!--            @else if (getRows().at(rowIndex).get('longitude')?.invalid) {-->
+<!--            <mat-error><strong>Invalid input</strong></mat-error>-->
+<!--            }-->
+<!--            </div>-->
+        </mat-cell>
 
-<!--      @if (longitudeFormControl.hasError('required')) {-->
-<!--      <mat-error>Longitude is <strong>required</strong></mat-error>-->
-<!--      }-->
-<!--      @if (longitudeFormControl.hasError('min') || longitudeFormControl.hasError('max')) {-->
-<!--      <mat-error>Longitude range <strong>wrong</strong></mat-error>-->
-<!--      }-->
-<!--    </td>-->
-<!--  </ng-container>-->
+      </ng-container>
 
-<!--  <ng-container matColumnDef="name">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Name </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.name}} </td>-->
-<!--  </ng-container>-->
+      <ng-container cdkColumnDef="status">
+        <mat-header-cell *cdkHeaderCellDef> Status </mat-header-cell>
 
-<!--  <ng-container matColumnDef="status">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Status </th>-->
-<!--    <td mat-cell *matCellDef="let element">{{element.status}}</td>-->
-<!--  </ng-container>-->
+        <mat-cell *cdkCellDef="let row let rowIndex = index"  [formGroupName]="rowIndex">
+          <h3>
+            @if (row.status == 0){
+            <i>Inactive</i>
+          } @else if (row.status == 1){
+            <i>In queue</i>
+          }
+          </h3>
+        </mat-cell>
+      </ng-container>
 
-<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-<!--</table>-->
+       <ng-container cdkColumnDef="modify">
+        <mat-header-cell *cdkHeaderCellDef> Modify </mat-header-cell>
 
-<!--</ng-container>-->
+        <mat-cell *cdkCellDef="let row let rowIndex = index"  [formGroupName]="rowIndex">
+
+        </mat-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="delete">
+        <mat-header-cell *cdkHeaderCellDef> Delete </mat-header-cell>
+
+        <mat-cell *cdkCellDef="let row let rowIndex = index"  [formGroupName]="rowIndex">
+            <button type="button" [autofocus]="false" mat-icon-button (click)="deleteCoordinate(rowIndex)">
+              <mat-icon>delete</mat-icon>
+            </button>
+        </mat-cell>
+
+      </ng-container>
+      <!-- Header and Row Declarations -->
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    </form>
