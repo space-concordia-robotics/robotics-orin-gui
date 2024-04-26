@@ -10,6 +10,8 @@
         <mat-checkbox class="mat-menu__checkbox"  (change)="onMapChanged($event)" (click)=$event.stopPropagation() #cb>Map</mat-checkbox>
         <br>
         <mat-checkbox class="mat-menu__checkbox"  (change)="onCameraStreamsChanged($event)" (click)=$event.stopPropagation() #cb>Camera streams</mat-checkbox>
+        <br>
+        <mat-checkbox class="mat-menu__checkbox"  (change)="onBatteryStatusChanged($event)" (click)=$event.stopPropagation() #cb>Battery status</mat-checkbox>
       </div>
 
       </mat-menu>

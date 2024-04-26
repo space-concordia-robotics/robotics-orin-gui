@@ -29,6 +29,10 @@ export class ToolWindowComponent {
   onCameraStreamsChanged(event : any){
     this.cameraStreamsChecked.emit(event.checked)
   }
+  onBatteryStatusChanged(event : any) {
+    this.batteryStatusChecked.emit(event.checked)
+  }
   @Output() mapChecked = new EventEmitter<boolean>()
   @Output() cameraStreamsChecked = new EventEmitter<boolean>()
+  @Output() batteryStatusChecked = new EventEmitter<boolean>()
 }

@@ -1,6 +1,7 @@
 <app-tool-window
   (mapChecked)="setMapVisibility($event)"
-  (cameraStreamsChecked)="setCameraVisibility($event)">
+  (cameraStreamsChecked)="setCameraVisibility($event)"
+  (batteryStatusChecked)="setBatteryStatusVisibility($event)">
 </app-tool-window>
 
 <app-resizable *ngIf="mapVisible" style="background-color: green  "
@@ -8,4 +9,7 @@
 </app-resizable>
 
 <app-resizable *ngIf="camerasVisible" [component]="VideoClientComponent" [width]="400" [height]="400" [left]="0" [top]="400">
+</app-resizable>
+
+<app-resizable *ngIf="batteryStatusVisible" [component]="BatteryStatusWindowComponent" [width]="400" [height]="400" [left]="0" [top]="800">
 </app-resizable>

@@ -4,6 +4,7 @@ import {NgIf} from "@angular/common";
 import {ToolWindowComponent} from "../tool-window/tool-window.component";
 import {VideoClientComponent} from "../video-client/video-client.component";
 import {ResizableComponent} from "../resizable/resizable.component";
+import { BatteryStatusWindowComponent } from '../battery/battery-status-window/battery-status-window.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,8 @@ import {ResizableComponent} from "../resizable/resizable.component";
     NgIf,
     ToolWindowComponent,
     VideoClientComponent,
-    ResizableComponent
+    ResizableComponent,
+    BatteryStatusWindowComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -21,6 +23,7 @@ import {ResizableComponent} from "../resizable/resizable.component";
 export class DashboardComponent {
   mapVisible : boolean
   camerasVisible : boolean
+  batteryStatusVisible : boolean
   constructor() {
   }
   setMapVisibility(event:boolean){
@@ -29,7 +32,11 @@ export class DashboardComponent {
   setCameraVisibility(event:boolean){
     this.camerasVisible = event
   }
+  setBatteryStatusVisibility(event:boolean){
+    this.batteryStatusVisible = event
+  }
 
   protected readonly VideoClientComponent = VideoClientComponent;
   protected readonly MapsComponent = MapsComponent;
+  protected readonly BatteryStatusWindowComponent = BatteryStatusWindowComponent;
 }
