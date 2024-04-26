@@ -5,6 +5,7 @@ import {ToolWindowComponent} from "../tool-window/tool-window.component";
 import {VideoClientComponent} from "../video-client/video-client.component";
 import {ResizableComponent} from "../resizable/resizable.component";
 import { BatteryStatusWindowComponent } from '../battery/battery-status-window/battery-status-window.component';
+import { AutonomyStatusComponent } from '../autonomy-status/autonomy-status.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ import { BatteryStatusWindowComponent } from '../battery/battery-status-window/b
     VideoClientComponent,
     ResizableComponent,
     BatteryStatusWindowComponent,
+    AutonomyStatusComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -24,6 +26,7 @@ export class DashboardComponent {
   mapVisible : boolean
   camerasVisible : boolean
   batteryStatusVisible : boolean
+  autonomyStatusVisible : boolean
   constructor() {
   }
   setMapVisibility(event:boolean){
@@ -35,8 +38,12 @@ export class DashboardComponent {
   setBatteryStatusVisibility(event:boolean){
     this.batteryStatusVisible = event
   }
+  setAutonomyStatusVisible(event:boolean){
+    this.autonomyStatusVisible = event
+  }
 
   protected readonly VideoClientComponent = VideoClientComponent;
   protected readonly MapsComponent = MapsComponent;
   protected readonly BatteryStatusWindowComponent = BatteryStatusWindowComponent;
+  protected readonly AutonomyStatusComponent = AutonomyStatusComponent
 }

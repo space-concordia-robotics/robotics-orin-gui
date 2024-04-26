@@ -5,6 +5,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
+import { CdkDropListGroup } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-tool-window',
@@ -32,7 +33,11 @@ export class ToolWindowComponent {
   onBatteryStatusChanged(event : any) {
     this.batteryStatusChecked.emit(event.checked)
   }
+  onAutonomyStatusChanged(event : any) {
+    this.autonomyStatusChecked.emit(event.checked);
+  }
   @Output() mapChecked = new EventEmitter<boolean>()
   @Output() cameraStreamsChecked = new EventEmitter<boolean>()
   @Output() batteryStatusChecked = new EventEmitter<boolean>()
+  @Output() autonomyStatusChecked = new EventEmitter<boolean>()
 }
