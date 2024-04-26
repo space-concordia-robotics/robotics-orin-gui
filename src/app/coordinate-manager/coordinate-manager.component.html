@@ -3,10 +3,10 @@
 
     <mat-table formArrayName="rows" #table [dataSource]="coordinates">
       <ng-container cdkColumnDef="latitude">
-        <mat-header-cell *cdkHeaderCellDef> Latitude </mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef> Latitude  <i>(-90,90)</i></mat-header-cell>
         <mat-cell *cdkCellDef="let row let rowIndex = index"  [formGroupName]="rowIndex">
           <mat-form-field>
-            <input (keyup.enter)="addCoordinates(rowIndex)" matInput placeholder="45.496082" formControlName="latitude"
+            <input (keyup.enter)="addCoordinates(rowIndex)" matInput placeholder="Ex: 45.496082..." formControlName="latitude"
                    [errorStateMatcher]="matcher">
           </mat-form-field>
         </mat-cell>
@@ -14,12 +14,12 @@
 
 
       <ng-container cdkColumnDef="longitude">
-        <mat-header-cell *cdkHeaderCellDef> Longitude </mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef> Longitude  <i>(-180,180)</i></mat-header-cell>
         <mat-cell *cdkCellDef="let row let rowIndex = index"  [formGroupName]="rowIndex">
 
 <!--          <div style="display:flex;flex-direction: column">-->
           <mat-form-field>
-            <input (keyup.enter)="addCoordinates(rowIndex)" matInput placeholder="45.496082" formControlName="longitude"
+            <input (keyup.enter)="addCoordinates(rowIndex)" matInput placeholder="Ex: -73.569916..." formControlName="longitude"
                    [errorStateMatcher]="matcher">
           </mat-form-field>
 <!--             @if (getRows().at(rowIndex).get('longitude')?.hasError('required')) {-->
@@ -37,13 +37,13 @@
         <mat-header-cell *cdkHeaderCellDef> Status </mat-header-cell>
 
         <mat-cell *cdkCellDef="let row let rowIndex = index"  [formGroupName]="rowIndex">
-          <h3>
+          <h4>
             @if (row.status == 0){
-            <i>Inactive</i>
+            <i><strong>Inactive</strong></i>
           } @else if (row.status == 1){
-            <i>In queue</i>
+            <i><strong>In queue</strong></i>
           }
-          </h3>
+          </h4>
         </mat-cell>
       </ng-container>
 

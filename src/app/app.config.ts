@@ -3,7 +3,8 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {CoordinateService} from "./services/coordinate-service";
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimationsAsync()]
+  providers: [provideRouter(routes), CoordinateService,provideAnimationsAsync()]
 };
