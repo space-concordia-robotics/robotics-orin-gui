@@ -10,6 +10,7 @@ import {MatButton} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
 import {CoordinateManagerComponent, Coordinates} from "../coordinate-manager/coordinate-manager.component";
 import {CoordinateService} from "../services/coordinate-service";
+import {ROSLIB_Service} from "../services/roslibjs-service";
 
 @Component({
   selector: 'app-maps',
@@ -57,8 +58,11 @@ export class MapsComponent implements OnInit{
     })
   }
 
-  constructor(public dialog: MatDialog, private coordinateService : CoordinateService) {
+  constructor(public dialog: MatDialog, private coordinateService : CoordinateService, private roslibService : ROSLIB_Service) {
     this.markers = []
+    // this.roslibService._gps?.subscribe(message => {
+    //   console.log(message)
+    // })
   }
 
   async initMap() {
