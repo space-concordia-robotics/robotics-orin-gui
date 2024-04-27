@@ -1,0 +1,20 @@
+.autonomy-status-window{
+    width: fit-content;
+}
+
+.autonomy-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    padding: 5px;
+    min-width: 181px; /* To avoid resizing */
+}
+
+.autonomy-status-window-title {
+    border: 1px solid black;
+    border-bottom: none;
+    text-align: center;
+    padding: 5px;
+}
+
