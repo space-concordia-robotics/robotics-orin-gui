@@ -20,7 +20,7 @@ export class VideoServerComponent {
   peerConnections: Map<string, RTCPeerConnection> = new Map()
   socket = io.connect(getServerURL());
   mediaStream: MediaStream[] = []
-  
+
 
   async streamMediaDevice(device : MediaDeviceInfo) {
     console.log(`Starting stream for ${device.label} - ${device.deviceId}`)
@@ -29,11 +29,9 @@ export class VideoServerComponent {
         deviceId: {exact: device.deviceId},
       }
     }).then(stream => {
-
       this.mediaStream.push(stream);
       this.socket.emit("broadcaster");
     })
-
   }
 
   enumerateMediaDevices() {

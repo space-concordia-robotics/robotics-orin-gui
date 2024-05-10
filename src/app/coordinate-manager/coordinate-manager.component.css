@@ -1,4 +1,26 @@
-
-table {
+mat-table{
+  text-align:center;
+  font-size:12px;
+  font-family: Verdana,Sans-Serif;
   width: 100%;
+
+}
+mat-row {
+  height: auto;
+}
+mat-cell{
+  font-size:12px;
+  font-family: Verdana,Sans-Serif;
+  /*display: flex;*/
+  /*height: 20px;*/
+  padding: 8px 8px 8px 0;
+  vertical-align: middle;
+  /*border-bottom: 1px solid rgba(0, 0, 0, 0.12);*/
+  /*border-top: 1px solid rgba(0, 0, 0, 0.12);*/
+  /*border-left: 1px solid rgba(0, 0, 0, 0.12);*/
+  /*border-right: 1px solid rgba(0, 0, 0, 0.12);*/
+  }
+mat-input{
+  width: 100px;
+  height: 25px
 }

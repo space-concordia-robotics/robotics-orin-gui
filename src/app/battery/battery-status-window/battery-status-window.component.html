@@ -1,0 +1,8 @@
+<div class="battery-status-window">
+    <div class="battery-status-window-title">Battery Status</div>
+    <div class="battery-info-wrapper">
+        <app-battery-info [side]="'L'" [voltage]="leftBatteryVoltage"></app-battery-info>
+        <app-battery-info [side]="'R'" [voltage]="rightBatteryVoltage"></app-battery-info>
+    </div>
+    <app-low-battery-warning [display]="displayWarning()" [warningMessage]="warningMessage()"></app-low-battery-warning>
+</div>

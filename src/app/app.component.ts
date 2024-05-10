@@ -1,5 +1,6 @@
 import {Component, NgZone} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {ROSLIB_Service} from "./services/roslibjs-service";
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = "Robotics GUI"
+
+  constructor() {
+  }
 }
