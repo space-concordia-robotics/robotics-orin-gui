@@ -10,6 +10,8 @@ export class RosService {
   private leftBatteryVoltageSubscriber: ROSLIB.Topic;
   private rightBatteryVoltageSubscriber: ROSLIB.Topic;
   private autonomyStatusSubscriber : ROSLIB.Topic;
+  private currentCoordinatesSubscriber : ROSLIB.Topic;
+
 
   constructor() {
     // Initialize ROS connection
@@ -20,13 +22,13 @@ export class RosService {
     // Create subscriber for battery voltage topic
     this.leftBatteryVoltageSubscriber = new ROSLIB.Topic({
       ros: this.ros,
-      name: '/battery_voltage_left',  
+      name: '/battery_voltage_left',
       messageType: 'std_msgs/Float32'
     });
 
     this.rightBatteryVoltageSubscriber = new ROSLIB.Topic({
       ros: this.ros,
-      name: '/battery_voltage_right',  
+      name: '/battery_voltage_right',
       messageType: 'std_msgs/Float32'
     });
 
@@ -35,6 +37,11 @@ export class RosService {
       ros: this.ros,
       name: '/SIL_Color',
       messageType: 'std_msgs/String'
+    })
+    this.currentCoordinatesSubscriber = new ROSLIB.Topic({
+      ros: this.ros,
+      name : '/gps_data',
+      messageType : 'sensor_msgs/msg/NavSatFix'
     })
   }
 
@@ -73,6 +80,11 @@ export class RosService {
     this.autonomyStatusSubscriber.subscribe((message: any) => {
       const silColorHex = message.data;
       callback(silColorHex);
+    });
+  }
+  subscribeToRoverCoordinates(callback: (data: any) => void) {
+    this.currentCoordinatesSubscriber.subscribe((message: any) => {
+      callback(message);
     });
   }
 }
