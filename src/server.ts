@@ -40,7 +40,8 @@ export class AppServer {
 
     this.io = require('socket.io')(this.httpServer, {
         cors: {
-            origin: `${this.DEFAULT_FRONT_END_HOST}`,
+            origin: '*',
+            // origin: `${this.DEFAULT_FRONT_END_HOST}`,
             methods: ["GET", "POST"],
             transports: ['websocket', 'polling'],
             credentials: true
