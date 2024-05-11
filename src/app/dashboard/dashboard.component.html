@@ -12,10 +12,10 @@
 <app-resizable *ngIf="camerasVisible" [component]="VideoClientComponent" [width]="400" [height]="400" [left]="0" [top]="400">
 </app-resizable>
 
-<app-resizable *ngIf="batteryStatusVisible" [component]="BatteryStatusWindowComponent" [width]="400" [height]="400" [left]="400" [top]="0">
+<app-resizable *ngIf="batteryStatusVisible" [component]="BatteryStatusWindowComponent" [width]="243" [height]="115" [left]="400" [top]="0" [minWidth]="243" [minHeight]="115">
 </app-resizable>
 
-<app-resizable *ngIf="autonomyStatusVisible" [component]="AutonomyStatusComponent" [width]="400" [height]="400" [left]="400" [top]="400" [minWidth]="160" [minHeight]="60">
+<app-resizable *ngIf="autonomyStatusVisible" [component]="AutonomyStatusComponent" [width]="160" [height]="60" [left]="400" [top]="400" [minWidth]="160" [minHeight]="60">
 </app-resizable>
 
 <app-warning>

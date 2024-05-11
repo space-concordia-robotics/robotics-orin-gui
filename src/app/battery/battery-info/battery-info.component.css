@@ -1,9 +1,10 @@
 .battery-info {
-    border: 1px solid black;
+    border: 1px solid royalblue;
+    min-width: 112px;
 }
 
 .battery-side {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid royalblue;
     display: flex;
     align-items: center;
     justify-content: center;
