@@ -6,6 +6,7 @@ import {VideoClientComponent} from "../video-client/video-client.component";
 import {ResizableComponent} from "../resizable/resizable.component";
 import { BatteryStatusWindowComponent } from '../battery/battery-status-window/battery-status-window.component';
 import { AutonomyStatusComponent } from '../autonomy-status/autonomy-status.component';
+import { WarningComponent } from '../warning/warning.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +19,7 @@ import { AutonomyStatusComponent } from '../autonomy-status/autonomy-status.comp
     ResizableComponent,
     BatteryStatusWindowComponent,
     AutonomyStatusComponent,
+    WarningComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
