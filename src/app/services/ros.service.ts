@@ -10,6 +10,7 @@ export class RosService {
   private leftBatteryVoltageSubscriber: ROSLIB.Topic;
   private rightBatteryVoltageSubscriber: ROSLIB.Topic;
   private autonomyStatusSubscriber : ROSLIB.Topic;
+  private gpsSubscriber : ROSLIB.Topic;
 
   constructor() {
     // Initialize ROS connection
@@ -36,6 +37,13 @@ export class RosService {
       name: '/SIL_Color',
       messageType: 'std_msgs/String'
     })
+
+    // Create subscriber for GPS topic
+    this.gpsSubscriber = new ROSLIB.Topic({
+      ros: this.ros,
+      name: '/gpsTopic',
+      messageType: 'sensor_msgs/NavSatFix'
+    })
   }
 
   connectToRos() {
@@ -52,7 +60,7 @@ export class RosService {
     });
   }
 
-  // Method to subscribe to battery voltage topic
+  // Method to subscribe to left battery voltage topic
   subscribeToLeftBatteryVoltage(callback: (data: number) => void) {
     this.leftBatteryVoltageSubscriber.subscribe((message: any) => {
       const float32Message = message as { data: number };
@@ -61,6 +69,7 @@ export class RosService {
     });
   }
 
+  // Method to subscribe to right battery voltage topic
   subscribeToRightBatteryVoltage(callback: (data: number) => void) {
     this.rightBatteryVoltageSubscriber.subscribe((message: any) => {
       const float32Message = message as { data: number };
@@ -69,10 +78,19 @@ export class RosService {
     });
   }
 
+  // Method to subscribe to autonomy status topic
   subscribeToAutonomyStatus(callback: (data: string) => void) {
     this.autonomyStatusSubscriber.subscribe((message: any) => {
       const silColorHex = message.data;
       callback(silColorHex);
+    });
+  }
+
+  // Method to subscribe to gps topic
+  subscribeToGPS(callback: (data: any) => void) {
+    this.gpsSubscriber.subscribe((message: any) => {
+      const coordinate = {lat : message.latitude, lng: message.longitude}
+      callback(coordinate)
     });
   }
 }
