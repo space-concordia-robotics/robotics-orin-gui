@@ -29,7 +29,8 @@ https://localhost:4200/server. Select your camera, if prompted.
 For the everything else to work, in another window as such
 https://localhost:4200`. Also, please use google chrome or chromium, i had alot of issues with firefox
 
-
+# A note on the cameras
+The current system will detect all video cameras that are plugged into the jetson and broadcast them to all connected clients. If you don't want a certain camera to transmit (like the ZED2), you will have to go to enumerateMediaDevices() in video-server.component.ts and check the device you are enumerating over ! Lastly, there is no 'automatic' HTML video system, the html video elements are hardcoded to support a certain number of cameras. Right now theres 4, (in video-client.component.html), so if you want fewer than 4 then you will manually have to remove the HTML video elements.  
 
 # Running the GUI on a non-local IP
 To be discussed...
