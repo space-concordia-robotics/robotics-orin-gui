@@ -24,6 +24,8 @@ export class ResizableComponent{
   @Input('height') public height: number = 150;
   @Input('left') public left: number = 100;
   @Input('top') public top: number = 100;
+  @Input('minWidth') public minWidth: number = 0;
+  @Input('minHeight') public minHeight: number = 0;
 
   @ViewChild("box") public box: ElementRef | undefined;
   private boxPosition: { left: number; top: number; } | undefined;
@@ -65,8 +67,8 @@ export class ResizableComponent{
   }
   private resize(){
     if(this.resizeCondMeet()){
-      this.width = Number(this.mouse!!.x > this.boxPosition!!.left) ? this.mouse!!.x - this.boxPosition!!.left : 0;
-      this.height = Number(this.mouse!!.y > this.boxPosition!!.top) ? this.mouse!!.y - this.boxPosition!!.top : 0;
+      this.width = Math.max(Number(this.mouse!!.x > this.boxPosition!!.left) ? this.mouse!!.x - this.boxPosition!!.left : 0, this.minWidth);
+      this.height = Math.max(Number(this.mouse!!.y > this.boxPosition!!.top) ? this.mouse!!.y - this.boxPosition!!.top : 0, this.minHeight);
     }
   }
   private resizeCondMeet(){

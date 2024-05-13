@@ -9,8 +9,9 @@ import {DecimalPipe} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
 import {CoordinateManagerComponent, Coordinates} from "../coordinate-manager/coordinate-manager.component";
-import {CoordinateService} from "../services/coordinate-service";
-import {RosService} from "../services/ros.service";
+
+// import {CoordinateService} from "../services/coordinate-service";
+import { RosService } from '../services/ros.service';
 
 @Component({
   selector: 'app-maps',
@@ -47,25 +48,27 @@ export class MapsComponent implements OnInit{
   ngOnInit() {
     // Initialize maps
     this.initMap().then(r => {
-      // Get the gps coordinates from the storage, and add them to the map
-      this.coordinateService.coordinates_value.subscribe(value  => {
-      if(value != null){
-        for (const coordinate of (JSON.parse(value) as Coordinates[])) {
+      // Get the gps coordinates from the gpsService, and add move the rover on the map
+      this.rosService.subscribeToGPS(coordinate  => {
           console.log(coordinate)
-          this.addCoordinates(coordinate)
-        }
-      }})
-      // This subscriber will update the rover's position on the map based off the GPS reading
-      this.rosService.subscribeToRoverCoordinates(data  => {
-        this.rover_marker.position = {
-          lat : data.latitude,
-          lng : data.longitude
-        }
+          this.updateRoverMarker(coordinate)
       })
     })
+    // this.initMap().then(r => {
+    //   // Get the gps coordinates from the storage, and add them to the map
+    //   this.coordinateService.coordinates_value.subscribe(value  => {
+    //   if(value != null){
+    //     for (const coordinate of (JSON.parse(value) as Coordinates[])) {
+    //       console.log(coordinate)
+    //       this.addCoordinates(coordinate)
+    //     }
+    //   }
+    //   })
+    // })
   }
 
-  constructor(public dialog: MatDialog, private coordinateService : CoordinateService, private rosService : RosService) {
+  // constructor(public dialog: MatDialog, private coordinateService : CoordinateService, private roslibService : ROSLIB_Service) {
+  constructor(public dialog: MatDialog, private rosService: RosService) {
     this.markers = []
   }
 
@@ -136,5 +139,8 @@ export class MapsComponent implements OnInit{
     });
   }
 
+  updateRoverMarker(coordinate : google.maps.LatLng) {
+    this.rover_marker.position = coordinate;
+  }
 }
 

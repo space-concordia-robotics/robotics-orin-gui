@@ -1,5 +1,5 @@
 .battery-status-window{
-    width: fit-content;
+    width: 100%
 }
 
 .battery-info-wrapper {
@@ -7,13 +7,12 @@
     flex-direction: row;
     gap: 5px;
     flex-wrap: wrap;
-    border: 1px solid black;
+
     padding: 5px;
 }
 
 .battery-status-window-title {
-    border: 1px solid black;
-    border-bottom: none;
+    border-bottom: 2px solid royalblue;
     text-align: center;
     padding: 5px;
 }
