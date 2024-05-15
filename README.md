@@ -7,11 +7,11 @@ After cloning the repo, from the root of the directory, run
 
 # Run the server
 In one terminal
-run `ts-node src/server.ts`. You should see
+run `ts-node src/server.ts` or `npm run server`. You should see
 `Server is listening on https://localhost:5000`. Currently, the server is responsible for broadcasting video streams to all connected clients.
 
 # Run the GUI (locally)
-Run `ng serve --host 0.0.0.0 --port 4200 --ssl`. Using the `--ssl` option will force an HTTPS connection, which is required for the cameras. We note the use of the self-signed 
+Run `ng serve --host 0.0.0.0 --port 4200 --ssl` or `npm run gui`. Using the `--ssl` option will force an HTTPS connection, which is required for the cameras. We note the use of the self-signed 
 SSL certificates, in the ./ssl directory. Thus, opening any pages will give us warnings! TODO : Get a proper CA issued SSL certificate.
 The `--host` option allows this server to accept connections from outside of
 localhost (ie: the basestation).
@@ -21,7 +21,10 @@ Note that the certificate (cert.pem) **needs** to be added to your browsers
 In chrome, this is in "Authorities" tab of "Manage certificates".
 
 Note the warning `The 'module' option will be set to 'ES2022' instead'`. This is from tsconfig.json, in the line `"module": "commonjs"`.
-Without this, (if we just did the standard `"module" : "ES2022"`), I cant' run do the `ts-node server.ts` command. Hence, dirty fix 
+Without this, (if we just did the standard `"module" : "ES2022"`), I cant' run do the `ts-node server.ts` command. Hence, dirty fix
+
+# Run the server and the GUI concurrently,
+Run `npm run dev`. This npm script starts the backend server using ts-node and then, after a brief pause, starts the frontend GUI using ng serve.
 
 # How to operate
 For the cameras to work, open one window as such
