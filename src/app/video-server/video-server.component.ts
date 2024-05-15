@@ -1,6 +1,8 @@
-import {Component, NgZone} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import * as io from "socket.io-client";
-import {getServerURL} from "../../../config/connection_info";
+import {ConnectionInfoService} from "../services/connection-info.service";
+import { Socket } from 'socket.io';
+import { HttpClientModule } from '@angular/common/http';
 
 
 const config = {
@@ -11,16 +13,32 @@ const config = {
 @Component({
   selector: 'app-video-server',
   standalone: true,
-  imports: [],
+  imports: [HttpClientModule],
   templateUrl: './video-server.component.html',
   styleUrl: './video-server.component.css'
 })
-export class VideoServerComponent {
+export class VideoServerComponent implements OnInit {
 
   peerConnections: Map<string, RTCPeerConnection> = new Map()
-  socket = io.connect(getServerURL());
+  socket: io.Socket;
   mediaStream: MediaStream[] = []
 
+  constructor(private connectionInfoService: ConnectionInfoService) {
+  }
+
+  ngOnInit(): void {
+    this.connectionInfoService.getServerURL().then(
+      (data: any) => {
+        const serverURL = data;
+        this.socket = io.connect(serverURL);
+        this.attachSocketEvents();
+        this.enumerateMediaDevices();
+      },
+      (error: any) => {
+        console.error('Error fetching server URL:', error);
+      }
+    );
+  }
 
   async streamMediaDevice(device : MediaDeviceInfo) {
     console.log(`Starting stream for ${device.label} - ${device.deviceId}`)
@@ -95,9 +113,5 @@ export class VideoServerComponent {
     window.onunload = window.onbeforeunload = () => {
       this.socket.close();
     };
-  }
-  constructor() {
-    this.attachSocketEvents()
-    this.enumerateMediaDevices()
   }
 }

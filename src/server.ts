@@ -4,9 +4,10 @@ import express, { Application } from "express";
 import { createServer, Server as HTTPSServer } from "https";
 
 import { Server, Socket } from "socket.io";
-import { getFrontEndURL, getServerHost } from "../config/connection_info";
+import { getFrontEndURL, getServerHost, getServerURL } from "../config/connection_info";
 import fs from 'fs';
 
+const cors = require("cors")
 
 export class AppServer {
  private httpServer: HTTPSServer;
@@ -26,6 +27,7 @@ export class AppServer {
 
  private configureApp(): void {
     this.app.use(express.static("public"));
+    this.app.use(cors())
   }
 
  private initialize(): void {
@@ -56,6 +58,11 @@ export class AppServer {
    this.app.get("/", (req, res) => {
      res.send(`<h1>Hello World</h1>`);
    });
+
+   this.app.get("/api/serverURL", (req, res) => {
+    const serverURL = `${this.DEFAULT_HOST}:${this.DEFAULT_PORT}`
+    res.json(serverURL);
+   })
  }
 
  private handleSocketConnection(): void {
