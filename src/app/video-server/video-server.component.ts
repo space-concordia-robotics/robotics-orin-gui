@@ -32,7 +32,7 @@ export class VideoServerComponent implements OnInit {
         const serverURL = data;
         this.socket = io.connect(serverURL);
         this.attachSocketEvents();
-        this.enumerateMediaDevices();
+        this.askForPermission();
       },
       (error: any) => {
         console.error('Error fetching server URL:', error);
@@ -52,21 +52,43 @@ export class VideoServerComponent implements OnInit {
     })
   }
 
+  askForPermission() {
+    navigator.permissions.query({name: 'camera' as PermissionName}).then(PermissionStatus => {
+      // If permission already granted, enumerate devices
+      if (PermissionStatus.state === 'granted') {
+        this.enumerateMediaDevices();
+      // If permission neither granted nor denied, ask for permission
+      } else if (PermissionStatus.state === 'prompt') {
+          navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+              // Permission granted
+              this.enumerateMediaDevices(); 
+              stream.getTracks().forEach(track => track.stop());
+            })
+            .catch(error => {
+              console.error('Permission denied for camera:', error);
+            });
+      } 
+      else {
+        console.log('Permission denied or error occurred:', PermissionStatus.state);
+      }
+    })
+  }
+
   enumerateMediaDevices() {
     navigator.mediaDevices
-      .enumerateDevices()
-      .then((devices) => {
-        devices.forEach((device) => {
-          console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
-          if (device.kind === "videoinput") {
-          this.streamMediaDevice(device)
-          }
+        .enumerateDevices()
+        .then((devices) => {
+          devices.forEach((device) => {
+            console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+            if (device.kind === "videoinput") {
+              this.streamMediaDevice(device)
+            }
+          });
+        })
+        .catch((err) => {
+          console.error(`${err.name}: ${err.message}`);
         });
-      })
-      .catch((err) => {
-        console.error(`${err.name}: ${err.message}`);
-      });
-
   }
 
   attachSocketEvents(){
