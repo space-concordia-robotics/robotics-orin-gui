@@ -11,6 +11,7 @@ export class RosService {
   private rightBatteryVoltageSubscriber: ROSLIB.Topic;
   private autonomyStatusSubscriber : ROSLIB.Topic;
   private gpsSubscriber : ROSLIB.Topic;
+  private arucoMarkersSubscriber : ROSLIB.Topic;
 
   constructor() {
     // Initialize ROS connection
@@ -37,11 +38,19 @@ export class RosService {
       name: '/SIL_Color',
       messageType: 'std_msgs/String'
     })
+
     // Create subscriber for GPS topic
     this.gpsSubscriber = new ROSLIB.Topic({
       ros: this.ros,
       name: '/gps_data',
       messageType: 'sensor_msgs/NavSatFix'
+    })
+
+    // Create subscriber for ArUco markers
+    this.arucoMarkersSubscriber = new ROSLIB.Topic({
+      ros: this.ros,
+      name: 'aruco_markers',
+      messageType: 'ros2_aruco_interfaces/ArucoMarkers', // TODO: Import or define this
     })
   }
 
@@ -84,11 +93,20 @@ export class RosService {
       callback(silColorHex);
     });
   }
+
   // Method to subscribe to gps topic
   subscribeToGPS(callback: (data: any) => void) {
     this.gpsSubscriber.subscribe((message: any) => {
       const coordinate = {lat : message.latitude, lng: message.longitude}
       callback(coordinate)
+    });
+  }
+
+  // Method to subscribe to ArUco markers
+  subscribeToArucoMarkers(callback: (data: any) => void) {
+    this.arucoMarkersSubscriber.subscribe((message: any) => {
+      const arucoMarkersData = message as { marker_ids: number[], poses: any[], header: string };
+      callback(arucoMarkersData);
     });
   }
 }
