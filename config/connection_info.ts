@@ -1,6 +1,6 @@
  export const connection_info = {
     protocol : "https",
-    local_host: "localhost",
+    local_host: "127.0.0.1",
     remote_host: require('ip').address(),
     frontend_port : 4200,
     server_port : 5000,
