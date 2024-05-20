@@ -1,6 +1,8 @@
-import {Component, NgZone} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import * as io from "socket.io-client";
-import {getServerURL} from "../../../config/connection_info";
+import {ConnectionInfoService} from "../services/connection-info.service";
+import { Socket } from 'socket.io';
+import { HttpClientModule } from '@angular/common/http';
 
 
 const config = {
@@ -11,16 +13,32 @@ const config = {
 @Component({
   selector: 'app-video-server',
   standalone: true,
-  imports: [],
+  imports: [HttpClientModule],
   templateUrl: './video-server.component.html',
   styleUrl: './video-server.component.css'
 })
-export class VideoServerComponent {
+export class VideoServerComponent implements OnInit {
 
   peerConnections: Map<string, RTCPeerConnection> = new Map()
-  socket = io.connect(getServerURL());
+  socket: io.Socket;
   mediaStream: MediaStream[] = []
 
+  constructor(private connectionInfoService: ConnectionInfoService) {
+  }
+
+  ngOnInit(): void {
+    this.connectionInfoService.getServerURL().then(
+      (data: any) => {
+        const serverURL = data;
+        this.socket = io.connect(serverURL);
+        this.attachSocketEvents();
+        this.askForPermission();
+      },
+      (error: any) => {
+        console.error('Error fetching server URL:', error);
+      }
+    );
+  }
 
   async streamMediaDevice(device : MediaDeviceInfo) {
     console.log(`Starting stream for ${device.label} - ${device.deviceId}`)
@@ -34,21 +52,43 @@ export class VideoServerComponent {
     })
   }
 
+  askForPermission() {
+    navigator.permissions.query({name: 'camera' as PermissionName}).then(PermissionStatus => {
+      // If permission already granted, enumerate devices
+      if (PermissionStatus.state === 'granted') {
+        this.enumerateMediaDevices();
+      // If permission neither granted nor denied, ask for permission
+      } else if (PermissionStatus.state === 'prompt') {
+          navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+              // Permission granted
+              this.enumerateMediaDevices(); 
+              stream.getTracks().forEach(track => track.stop());
+            })
+            .catch(error => {
+              console.error('Permission denied for camera:', error);
+            });
+      } 
+      else {
+        console.log('Permission denied or error occurred:', PermissionStatus.state);
+      }
+    })
+  }
+
   enumerateMediaDevices() {
     navigator.mediaDevices
-      .enumerateDevices()
-      .then((devices) => {
-        devices.forEach((device) => {
-          console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
-          if (device.kind === "videoinput") {
-          this.streamMediaDevice(device)
-          }
+        .enumerateDevices()
+        .then((devices) => {
+          devices.forEach((device) => {
+            console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+            if (device.kind === "videoinput") {
+              this.streamMediaDevice(device)
+            }
+          });
+        })
+        .catch((err) => {
+          console.error(`${err.name}: ${err.message}`);
         });
-      })
-      .catch((err) => {
-        console.error(`${err.name}: ${err.message}`);
-      });
-
   }
 
   attachSocketEvents(){
@@ -95,9 +135,5 @@ export class VideoServerComponent {
     window.onunload = window.onbeforeunload = () => {
       this.socket.close();
     };
-  }
-  constructor() {
-    this.attachSocketEvents()
-    this.enumerateMediaDevices()
   }
 }
