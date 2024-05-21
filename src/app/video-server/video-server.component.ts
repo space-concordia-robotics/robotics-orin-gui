@@ -49,7 +49,10 @@ export class VideoServerComponent implements OnInit {
     }).then(stream => {
       this.mediaStream.push(stream);
       this.socket.emit("broadcaster");
-    })
+    }).catch(error => {
+      // Catch error here so that if only one camera refuses to open, try to open others.
+      console.error('Error while strarting stream:', error);
+    });
   }
 
   askForPermission() {
