@@ -1,6 +1,7 @@
 import { compileNgModule } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import * as ROSLIB from 'roslib';
+import { ArucoMarker } from '../interfaces/aruco-markers';
 
 @Injectable({
   providedIn: 'root'
@@ -103,10 +104,10 @@ export class RosService {
   }
 
   // Method to subscribe to ArUco markers
-  subscribeToArucoMarkers(callback: (data: any) => void) {
+  subscribeToArucoMarkers(callback: (data: ArucoMarker) => void) {
     this.arucoMarkersSubscriber.subscribe((message: any) => {
-      const arucoMarkersData = message as { marker_ids: number[], poses: any[], header: string };
-      callback(arucoMarkersData);
+      const arucoMarkersData = message as ArucoMarker;
+      callback(arucoMarkersData);      
     });
   }
 }
