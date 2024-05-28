@@ -6,6 +6,7 @@ import { createServer, Server as HTTPSServer } from "https";
 import { Server, Socket } from "socket.io";
 import { getFrontEndURL, getServerHost } from "../config/connection_info";
 import fs from 'fs';
+import { exec } from 'child_process';
 
 
 export class AppServer {
@@ -56,6 +57,21 @@ export class AppServer {
    this.app.get("/", (req, res) => {
      res.send(`<h1>Hello World</h1>`);
    });
+
+   this.app.get('aruco_generate_marker/:id', (req, res) => {
+    const tagId = req.params.id;
+
+    exec(`python3 path/to/generate_aruco_tag.py --id ${tagId}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing script: ${error.message}`);
+        res.status(500).send('Error generating AR tag');
+      }
+      console.log(`stdout: ${stdout}`);
+      console.error(`stderr: ${stderr}`);
+      const imagePath = stdout.trim();
+      res.json({ imagePath });
+      });
+   })
  }
 
  private handleSocketConnection(): void {

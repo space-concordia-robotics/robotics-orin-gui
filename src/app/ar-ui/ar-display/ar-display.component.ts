@@ -14,6 +14,9 @@ import { NgForOf } from '@angular/common';
   styleUrl: './ar-display.component.css'
 })
 export class ArDisplayComponent {
+  // tags : ArucoTag[];
+  
+  // For testing
   tags : ArucoTag[] = [{
     id : 1,
     pose : new ROSLIB.Pose ({
@@ -30,7 +33,7 @@ export class ArDisplayComponent {
       })
     })
   },{
-    id : 1,
+    id : 2,
     pose : new ROSLIB.Pose ({
       position: new ROSLIB.Vector3({
         x: 6.0,
