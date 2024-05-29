@@ -7,6 +7,7 @@ import {ResizableComponent} from "../resizable/resizable.component";
 import { BatteryStatusWindowComponent } from '../battery/battery-status-window/battery-status-window.component';
 import { AutonomyStatusComponent } from '../autonomy-status/autonomy-status.component';
 import { WarningComponent } from '../warning/warning.component';
+import { EstopButtonComponent } from '../estop-button/estop-button.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,8 @@ import { WarningComponent } from '../warning/warning.component';
     ResizableComponent,
     BatteryStatusWindowComponent,
     AutonomyStatusComponent,
-    WarningComponent
+    WarningComponent,
+    EstopButtonComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -47,5 +49,6 @@ export class DashboardComponent {
   protected readonly VideoClientComponent = VideoClientComponent;
   protected readonly MapsComponent = MapsComponent;
   protected readonly BatteryStatusWindowComponent = BatteryStatusWindowComponent;
-  protected readonly AutonomyStatusComponent = AutonomyStatusComponent
+  protected readonly AutonomyStatusComponent = AutonomyStatusComponent;
+  protected readonly EstopButtonComponent = EstopButtonComponent;
 }

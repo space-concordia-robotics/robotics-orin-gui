@@ -1,0 +1,15 @@
+.estop-button {
+    background-color: red;
+    color: white;
+    padding: 5px;
+    display: inline;
+    font-size: large;
+    border: 2px solid white;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.estop-button:hover {
+    cursor: pointer;
+}
