@@ -6,6 +6,7 @@ import { createServer, Server as HTTPSServer } from "https";
 import { Server, Socket } from "socket.io";
 import { getFrontEndURL, getServerHost, getServerURL } from "../config/connection_info";
 import fs from 'fs';
+import { exec } from 'child_process'
 
 const cors = require("cors")
 
@@ -63,6 +64,23 @@ export class AppServer {
     const serverURL = `${this.DEFAULT_HOST}:${this.DEFAULT_PORT}`
     res.json(serverURL);
    })
+
+   this.app.get('/estop', (req, res) => {
+    exec('sudo sh scripts/bash/estop.bash', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing script: ${error.message}`);
+        return res.status(500).send('Error executing estop');
+      }
+      if (stderr) {
+        console.error(`Script stderr: ${stderr}`);
+        return res.status(500).send('Error executing estop');
+      }
+
+      console.error(`Script stdout: ${stdout}`);
+      return res.status(200).send('Estop executed successfuly');
+
+    });
+  })
  }
 
  private handleSocketConnection(): void {
