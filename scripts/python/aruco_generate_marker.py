@@ -16,26 +16,6 @@ class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter,
     pass
 
 
-def addWhiteBorder(image, borderSize):
-    """Add a white border of the given number of pixels around the image.
-
-    Parameters:
-    image  (np.array, type np.uint8, 2D): black and white image
-    borderSize: Number of pixels to add around each edge of the image
-
-    Returns:
-    np.array: image with border
-    """
-
-    newSize = (image.shape[0] + borderSize * 2, image.shape[1] + borderSize * 2)
-
-    imageWithBorder = np.full(newSize, 255, dtype=image.dtype)
-
-    imageWithBorder[borderSize:-borderSize, borderSize:-borderSize] = image
-
-    return imageWithBorder
-
-
 def main():
     parser = argparse.ArgumentParser(formatter_class=CustomFormatter,
                                      description="Generate a .png image of a specified maker.")
@@ -63,12 +43,10 @@ def main():
     else:
         image = cv2.aruco.generateImageMarker(dictionary, args.id, args.size, image, 1)
 
-    image = addWhiteBorder(image, args.border)
-
-    output_dir = os.path.join(os.path.dirname(__file__), "../../src/assets/ar_tags")
+    output_dir = os.path.join(os.path.dirname(__file__), "../../src/public/ar_tags")
     output_path = os.path.join(output_dir, "marker_{:04d}.png".format(args.id))
     cv2.imwrite(output_path, image)
-    print(output_path)
+    print("https://127.0.0.1:5000/ar_tags/marker_{:04d}.png".format(args.id))
 
 
 

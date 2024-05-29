@@ -1,7 +1,7 @@
 <div class="tag-container">
     <div class="tag-image">
         <span>Tag ID: {{tag.id}}</span>
-        <img src="#" alt="Image placeholder">
+        <img *ngIf="image_path" [src]="image_path" alt="Image placeholder">
     </div>
     <div class="tag-pose">
         <span>Position:</span>

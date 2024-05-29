@@ -7,6 +7,8 @@ import { Server, Socket } from "socket.io";
 import { getFrontEndURL, getServerHost } from "../config/connection_info";
 import fs from 'fs';
 import { exec } from 'child_process';
+import cors from 'cors';
+import path from 'path'
 
 
 export class AppServer {
@@ -26,11 +28,12 @@ export class AppServer {
  }
 
  private configureApp(): void {
-    this.app.use(express.static("public"));
+    this.app.use(express.static(path.join(__dirname, 'public')));
   }
 
  private initialize(): void {
     this.app = express();
+    this.app.use(cors())
 
     this.httpServer = createServer(
       {
@@ -58,10 +61,10 @@ export class AppServer {
      res.send(`<h1>Hello World</h1>`);
    });
 
-   this.app.get('aruco_generate_marker/:id', (req, res) => {
-    const tagId = req.params.id;
+   this.app.get('/aruco_generate_marker/:id', (req, res) => {
+    const tagId = req.params.id
 
-    exec(`python3 path/to/generate_aruco_tag.py --id ${tagId}`, (error, stdout, stderr) => {
+    exec(`python3 scripts/python/aruco_generate_marker.py --id ${tagId}`, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error executing script: ${error.message}`);
         res.status(500).send('Error generating AR tag');
