@@ -69,11 +69,14 @@ export class AppServer {
         if (error) {
           console.error(`Error executing script: ${error.message}`);
           res.status(500).send('Error generating AR tag');
+        } else if (stderr) {
+          console.error(`stderr: ${stderr}`);
+          res.status(500).send('Exception occured while generating AR tag')
+        } else {
+          console.log(`stdout: ${stdout}`);
+          const imagePath = stdout.trim();
+          res.json({ imagePath });
         }
-        // console.log(`stdout: ${stdout}`);
-        // console.error(`stderr: ${stderr}`);
-        const imagePath = stdout.trim();
-        res.json({ imagePath });
       });
     })
 
