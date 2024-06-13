@@ -1,7 +1,7 @@
 <div *ngIf="isVisible" class="tag-container">
     <div class="tag-image">
         <span>Tag ID: {{tag.id}}</span>
-        <img *ngIf="image_path" [src]="image_path" alt="Image placeholder">
+        <img [src]="image_path ? image_path : 'https://127.0.0.1:5000/ar_tags/loading.gif'" alt="Image placeholder">
     </div>
     <div class="tag-pose">
         <span>Position:</span>
