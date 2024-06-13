@@ -42,4 +42,5 @@ testem.log
 Thumbs.db
 
 # Generated AR tags
-src/public/ar_tags/
+src/public/ar_tags/*
+!src/public/ar_tags/loading.gif
