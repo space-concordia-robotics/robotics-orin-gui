@@ -1,4 +1,4 @@
-<div class="tag-container">
+<div *ngIf="isVisible" class="tag-container">
     <div class="tag-image">
         <span>Tag ID: {{tag.id}}</span>
         <img *ngIf="image_path" [src]="image_path" alt="Image placeholder">
