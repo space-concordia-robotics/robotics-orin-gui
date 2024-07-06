@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import {STLLoader} from 'three/examples/jsm/loaders/STLLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
+import { ConnectionInfoService } from '../services/connection-info.service';
 
 @Component({
   selector: 'app-arm',
@@ -17,6 +19,9 @@ export class ArmComponent implements OnInit, AfterViewInit {
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
   private stats: Stats;
+
+  constructor (private connectionInfoService: ConnectionInfoService) {
+  }
   
   ngOnInit(): void {
     this.initThreeJS();
@@ -52,10 +57,27 @@ export class ArmComponent implements OnInit, AfterViewInit {
   }
 
   private loadModel(): void {
-    const geometry = new THREE.BoxGeometry(2, 0.5, 1);
-    const material = new THREE.MeshBasicMaterial( {color: 0x999999})
-    const cube = new THREE.Mesh( geometry, material)
-    this.scene.add(cube)
+    this.connectionInfoService.getServerURL().then(serverURL => {
+      // const geometry = new THREE.BoxGeometry(2, 0.5, 1);
+      const material = new THREE.MeshBasicMaterial( {color: 0x999999})
+      // const cube = new THREE.Mesh( geometry, material)
+      // this.scene.add(cube)
+
+      const loader = new STLLoader();
+      loader.load(
+        `${serverURL}/meshes/base_link.STL`,
+        (geometry) => {
+          const base_link = new THREE.Mesh(geometry, material)
+          this.scene.add(base_link)
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    })
   }
 
   private animate(): void {

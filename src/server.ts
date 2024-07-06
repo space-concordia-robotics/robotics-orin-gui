@@ -6,6 +6,7 @@ import { createServer, Server as HTTPSServer } from "https";
 import { Server, Socket } from "socket.io";
 import { getFrontEndURL, getServerHost, getServerURL } from "../config/connection_info";
 import fs from 'fs';
+import path from 'path'
 
 const cors = require("cors")
 
@@ -26,8 +27,12 @@ export class AppServer {
  }
 
  private configureApp(): void {
-    this.app.use(express.static("public"));
-    this.app.use(cors())
+    const corsOptions = {
+      origin: this.DEFAULT_FRONT_END_HOST
+    }
+    console.log(corsOptions)
+    this.app.use(cors(corsOptions))
+    this.app.use(express.static(path.join(__dirname, 'public')));
   }
 
  private initialize(): void {
