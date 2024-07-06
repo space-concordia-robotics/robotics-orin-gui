@@ -26,8 +26,6 @@ def main():
                             help='Marker id to generate')
         parser.add_argument('--size', default=200, type=int,
                             help='Side length in pixels')
-        parser.add_argument('--border', default=20, type=int,
-                            help='White border size in pixels')
         
         dict_options = [s for s in dir(cv2.aruco) if s.startswith("DICT")]
         option_str = ", ".join(dict_options)
