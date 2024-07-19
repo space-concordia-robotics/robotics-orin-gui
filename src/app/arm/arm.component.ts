@@ -39,7 +39,7 @@ export class ArmComponent implements OnInit, AfterViewInit {
 
     // Camera
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.z = 5;
+    this.camera.position.z = 10;
 
     // Renderer
     const canvas = this.canvasRef.nativeElement;
@@ -58,17 +58,95 @@ export class ArmComponent implements OnInit, AfterViewInit {
 
   private loadModel(): void {
     this.connectionInfoService.getServerURL().then(serverURL => {
-      // const geometry = new THREE.BoxGeometry(2, 0.5, 1);
-      const material = new THREE.MeshBasicMaterial( {color: 0x999999})
-      // const cube = new THREE.Mesh( geometry, material)
-      // this.scene.add(cube)
+
+      const material = new THREE.MeshStandardMaterial({
+        color: 0x888888,
+        metalness: 1.0,
+        roughness: 0.2
+      })
 
       const loader = new STLLoader();
       loader.load(
         `${serverURL}/meshes/base_link.STL`,
         (geometry) => {
           const base_link = new THREE.Mesh(geometry, material)
+
+          base_link.scale.set(10, 10, 10);
+          base_link.rotation.x = -Math.PI / 2;
+
           this.scene.add(base_link)
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+      loader.load(
+        `${serverURL}/meshes/upper_base_link.STL`,
+        (geometry) => {
+          const upper_base_link = new THREE.Mesh(geometry, material)
+
+          upper_base_link.scale.set(10, 10, 10);
+          upper_base_link.rotation.x = -Math.PI / 2;
+          upper_base_link.position.y = 1.45;
+
+          this.scene.add(upper_base_link)
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+      loader.load(
+        `${serverURL}/meshes/proximal_link.STL`,
+        (geometry) => {
+          const proximal_link = new THREE.Mesh(geometry, material)
+
+          proximal_link.scale.set(10, 10, 10);
+          proximal_link.rotation.z = 5 * Math.PI / 8;
+          proximal_link.position.y = 1.7;
+
+          this.scene.add(proximal_link)
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+      loader.load(
+        `${serverURL}/meshes/distal_link.STL`,
+        (geometry) => {
+          const distal_link = new THREE.Mesh(geometry, material)
+
+          distal_link.scale.set(10, 10, 10);
+          distal_link.rotation.z = Math.PI / 8;
+          distal_link.position.y = 5.7; // TODO: This should be dynamically calculated
+          distal_link.position.x = -1.8; // TODO: This should be dynamically calculated
+
+          this.scene.add(distal_link)
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+      loader.load(
+        `${serverURL}/meshes/wrist.STL`,
+        (geometry) => {
+          const wrist = new THREE.Mesh(geometry, material)
+
+          wrist.scale.set(10, 10, 10);
+          wrist.position.y = 7.25; // TODO: This should be dynamically calculated
+          wrist.position.x = 1.75;
+          this.scene.add(wrist)
         },
         (xhr) => {
           console.log((xhr.loaded / xhr.total) * 100 + '% loaded')

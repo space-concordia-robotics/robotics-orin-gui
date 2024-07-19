@@ -28,9 +28,8 @@ export class AppServer {
 
  private configureApp(): void {
     const corsOptions = {
-      origin: this.DEFAULT_FRONT_END_HOST
+      origin: '*'
     }
-    console.log(corsOptions)
     this.app.use(cors(corsOptions))
     this.app.use(express.static(path.join(__dirname, 'public')));
   }
