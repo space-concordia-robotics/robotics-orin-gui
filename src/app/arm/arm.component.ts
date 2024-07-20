@@ -35,11 +35,14 @@ export class ArmComponent implements OnInit, AfterViewInit {
   private initThreeJS(): void {
     // Scene
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xeeeeee);
+    this.scene.background = new THREE.Color(0xddddff);
 
     // Camera
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.z = 10;
+    this.camera.position.x = 8;
+    this.camera.position.y = 3;
+
 
     // Renderer
     const canvas = this.canvasRef.nativeElement;
@@ -54,6 +57,14 @@ export class ArmComponent implements OnInit, AfterViewInit {
     // Stats panel, useful for seeing the performance
     this.stats = new Stats()
     document.body.appendChild(this.stats.dom)
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 200); // Soft white light
+
+    this.scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 100); // White directional light
+    directionalLight.position.set(-5, 10, 7.5);
+    this.scene.add(directionalLight);
   }
 
   private loadModel(): void {
@@ -69,10 +80,12 @@ export class ArmComponent implements OnInit, AfterViewInit {
       loader.load(
         `${serverURL}/meshes/base_link.STL`,
         (geometry) => {
+          geometry.computeVertexNormals();
           const base_link = new THREE.Mesh(geometry, material)
 
           base_link.scale.set(10, 10, 10);
           base_link.rotation.x = -Math.PI / 2;
+          base_link.position.y = -2
 
           this.scene.add(base_link)
         },
@@ -90,7 +103,7 @@ export class ArmComponent implements OnInit, AfterViewInit {
 
           upper_base_link.scale.set(10, 10, 10);
           upper_base_link.rotation.x = -Math.PI / 2;
-          upper_base_link.position.y = 1.45;
+          upper_base_link.position.y = -0.55;
 
           this.scene.add(upper_base_link)
         },
@@ -108,7 +121,7 @@ export class ArmComponent implements OnInit, AfterViewInit {
 
           proximal_link.scale.set(10, 10, 10);
           proximal_link.rotation.z = 5 * Math.PI / 8;
-          proximal_link.position.y = 1.7;
+          proximal_link.position.y = -0.5
 
           this.scene.add(proximal_link)
         },
@@ -126,8 +139,8 @@ export class ArmComponent implements OnInit, AfterViewInit {
 
           distal_link.scale.set(10, 10, 10);
           distal_link.rotation.z = Math.PI / 8;
-          distal_link.position.y = 5.7; // TODO: This should be dynamically calculated
-          distal_link.position.x = -1.8; // TODO: This should be dynamically calculated
+          distal_link.position.y = 3.3; // TODO: This should be dynamically calculated
+          distal_link.position.x = -1.6; // TODO: This should be dynamically calculated
 
           this.scene.add(distal_link)
         },
@@ -144,8 +157,8 @@ export class ArmComponent implements OnInit, AfterViewInit {
           const wrist = new THREE.Mesh(geometry, material)
 
           wrist.scale.set(10, 10, 10);
-          wrist.position.y = 7.25; // TODO: This should be dynamically calculated
-          wrist.position.x = 1.75;
+          wrist.position.y = 4.85; // TODO: This should be dynamically calculated
+          wrist.position.x = 2.2;
           this.scene.add(wrist)
         },
         (xhr) => {
