@@ -11,6 +11,7 @@ export class RosService {
   private rightBatteryVoltageSubscriber: ROSLIB.Topic;
   private autonomyStatusSubscriber : ROSLIB.Topic;
   private gpsSubscriber : ROSLIB.Topic;
+  private jointStatesSubscriber: ROSLIB.Topic;
 
   constructor() {
     // Initialize ROS connection
@@ -43,6 +44,12 @@ export class RosService {
       name: '/gps_data',
       messageType: 'sensor_msgs/NavSatFix'
     })
+    // Create subscriber for joint states topic
+    this.jointStatesSubscriber = new ROSLIB.Topic({
+      ros: this.ros,
+      name: '/joint_states',
+      messageType: 'sensor_msgs/JointState'
+    });
   }
 
   connectToRos() {
@@ -89,6 +96,16 @@ export class RosService {
     this.gpsSubscriber.subscribe((message: any) => {
       const coordinate = {lat : message.latitude, lng: message.longitude}
       callback(coordinate)
+    });
+  }
+  // Method to subscribe to joint states topic
+  subscribeToJointStates(callback: (data: any) => void) {
+    this.jointStatesSubscriber.subscribe((message: any) => {
+      const jointState = {
+        names: message.name,
+        positions: message.position
+      };
+      callback(jointState);
     });
   }
 }
