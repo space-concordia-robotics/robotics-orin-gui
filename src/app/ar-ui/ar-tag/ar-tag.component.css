@@ -1,0 +1,17 @@
+.tag-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tag-pose {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 335px;
+}
+
+.tag-container {
+    border: 2px solid royalblue;
+    padding: 5px;
+}
