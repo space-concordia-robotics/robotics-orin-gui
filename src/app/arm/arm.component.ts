@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import {STLLoader} from 'three/examples/jsm/loaders/STLLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { ConnectionInfoService } from '../services/connection-info.service';
+import { RosService } from '../services/ros.service';
+import { JointStates } from '../interfaces/JointStates'
 
 @Component({
   selector: 'app-arm',
@@ -20,7 +22,10 @@ export class ArmComponent implements OnInit, AfterViewInit {
   private renderer: THREE.WebGLRenderer;
   private stats: Stats;
 
-  constructor (private connectionInfoService: ConnectionInfoService) {
+  constructor (private connectionInfoService: ConnectionInfoService, private rosService: RosService) {
+    this.rosService.subscribeToJointStates((data : JointStates) => {
+      console.log(data);
+    })
   }
   
   ngOnInit(): void {
