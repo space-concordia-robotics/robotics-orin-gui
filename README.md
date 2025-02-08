@@ -9,7 +9,7 @@ After cloning the repo, from the root of the directory, run
 To your `/etc/hosts/` file on your client (ie where
 you are viewing the camera stream), add the following
 line:
-`10.240.0.100   cameras.local`
+`10.240.0.10   cameras.local`
 Where the first part is the IP of the rover, and the
 second is a domain name, which is hardcoded in `connection_info.ts`.
 Note there is a **tab** between the two lines.
