@@ -3,7 +3,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # Install dependencies
 After cloning the repo, from the root of the directory, run
-`npm install`. It should install all required packages
+`npm install`. It should install all required packages.
 
 # Setup
 To your `/etc/hosts/` file on your client (ie where
@@ -39,7 +39,7 @@ Run `npm run dev`. This npm script starts the backend server using ts-node and t
 For the cameras to work, open one window as such
 https://localhost:4200/server. Select your camera, if prompted.
 For the everything else to work, in another window as such
-https://localhost:4200`. Also, please use google chrome or chromium, i had alot of issues with firefox
+https://localhost:4200`. Also, please use google chrome or chromium, I had a lot of issues with firefox
 
 # A note on the cameras
 The current system will detect all video cameras that are plugged into the jetson and broadcast them to all connected clients. If you don't want a certain camera to transmit (like the ZED2), you will have to go to enumerateMediaDevices() in video-server.component.ts and check the device you are enumerating over ! Lastly, there is no 'automatic' HTML video system, the html video elements are hardcoded to support a certain number of cameras. Right now theres 4, (in video-client.component.html), so if you want fewer than 4 then you will manually have to remove the HTML video elements.  
