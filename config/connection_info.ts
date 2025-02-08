@@ -1,7 +1,7 @@
  export const connection_info = {
     protocol : "https",
     local_host: "127.0.0.1",
-    remote_host: require('ip').address(),
+    remote_host: "cameras.local",
     frontend_port : 4200,
     server_port : 5000,
     local_mode : false

@@ -5,6 +5,15 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 After cloning the repo, from the root of the directory, run
 `npm install`. It should install all required packages
 
+# Setup
+To your `/etc/hosts/` file on your client (ie where
+you are viewing the camera stream), add the following
+line:
+`10.240.0.100   cameras.local`
+Where the first part is the IP of the rover, and the
+second is a domain name, which is hardcoded in `connection_info.ts`.
+Note there is a **tab** between the two lines.
+
 # Run the server
 In one terminal
 run `ts-node src/server.ts` or `npm run server`. You should see
