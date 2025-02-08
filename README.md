@@ -1,15 +1,16 @@
 # Robotics GUI
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+**Follow the setup directions, they are crucial to get camera streaming** 
 
 # Install dependencies
 After cloning the repo, from the root of the directory, run
 `npm install`. It should install all required packages.
 
 # Setup
-To your `/etc/hosts/` file on your client (ie where
-you are viewing the camera stream), add the following
+To your `/etc/hosts/` file on both your client (ie your laptop where
+you are viewing the camera stream) and the rover, add the following
 line:
-`10.240.0.100   cameras.local`
+`10.240.0.10   cameras.local`
 Where the first part is the IP of the rover, and the
 second is a domain name, which is hardcoded in `connection_info.ts`.
 Note there is a **tab** between the two lines.

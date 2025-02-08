@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ConnectionInfoService {
 
-  private baseUrl = 'https://127.0.0.1:5000';
+  private baseUrl = 'https://cameras.local:5000';
 
   constructor(private http: HttpClient) { }
 
